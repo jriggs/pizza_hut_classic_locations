@@ -11,17 +11,17 @@
             padding: 20px;
             background-color: #f5f5f5;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 20px;
         }
-        
+
         .header h1 {
             color: #c8102e;
             margin-bottom: 10px;
         }
-        
+
         #map {
             width: 100%;
             height: 600px;
@@ -29,7 +29,7 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        
+
         .info-panel {
             background: white;
             margin-top: 20px;
@@ -38,27 +38,27 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             text-align: center;
         }
-        
+
         .gm-style-iw {
             font-family: Arial, sans-serif;
         }
-        
+
         .marker-info {
             padding: 10px;
             min-width: 200px;
         }
-        
+
         .marker-info h3 {
             margin: 0 0 10px 0;
             color: #c8102e;
             font-size: 16px;
         }
-        
+
         .marker-info p {
             margin: 5px 0;
             font-size: 14px;
         }
-        
+
         .phone {
             font-weight: bold;
             color: #2c5aa0;
@@ -68,46 +68,38 @@
 <body>
     <div class="header">
         <h1>🍕 Pizza Hut Classic Locations</h1>
+        <p><strong>Pizza Hut Classic</strong> is a nostalgic return to the original dine-in Pizza Hut experience, known for its iconic red roofs, classic pan pizzas, and cozy, family-friendly atmosphere.</p>
         <p>Click on any pin to view location details</p>
     </div>
-    
+
     <div id="map"></div>
-    
+
     <div class="info-panel">
         <strong>Total Locations: 33 Pizza Hut Classic restaurants across 10 states</strong>
+        <div style="margin-top: 20px;">
+            <img src="image.png" alt="Pizza Hut Classic example" style="max-width:100%; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1);" />
+        </div>
     </div>
 
     <script>
         let map;
         let infoWindow;
 
-        // Pizza Hut Classic locations data
         const locations = [
-            // Arkansas
             { lat: 36.4009, lng: -93.7391, title: "Eureka Springs, AR", address: "2048 E. Van Buren", phone: "479-253-8258", state: "Arkansas" },
             { lat: 36.0867, lng: -93.7410, title: "Huntsville, AR", address: "137 Lee St.", phone: "479-738-2800", state: "Arkansas" },
             { lat: 36.3351, lng: -92.3835, title: "Mountain Home, AR", address: "1205 Hwy 62 E.", phone: "870-425-6081", state: "Arkansas" },
-            
-            // Florida
             { lat: 28.7647, lng: -82.5262, title: "Homosassa Springs, FL", address: "4845 S Suncoast Blvd.", phone: "352-628-1234", state: "Florida" },
-            
-            // Georgia
             { lat: 34.8782, lng: -83.4013, title: "Clayton, GA", address: "48 Hwy 441 No", phone: "706-782-2111", state: "Georgia" },
             { lat: 34.5326, lng: -83.9846, title: "Dahlonega, GA", address: "1352 S. Chestatee", phone: "706-864-7592", state: "Georgia" },
             { lat: 34.4382, lng: -83.1071, title: "Lavonia, GA", address: "14249 Jones St.", phone: "706-356-2345", state: "Georgia" },
             { lat: 34.2871, lng: -83.1154, title: "Royston, GA", address: "200 Franklin Springs Circle", phone: "706-245-6686", state: "Georgia" },
-            
-            // Illinois
             { lat: 40.7214, lng: -89.2726, title: "Eureka, IL", address: "118 W Center St.", phone: "309-467-2777", state: "Illinois" },
             { lat: 41.4478, lng: -90.1540, title: "Geneseo, IL", address: "1049 S Oakwood Ave.", phone: "309-944-5373", state: "Illinois" },
-            
-            // Indiana
             { lat: 41.0881, lng: -85.1772, title: "Fort Wayne, IN", address: "3820 E. State Blvd.", phone: "260-483-9531", state: "Indiana" },
             { lat: 38.5562, lng: -86.4683, title: "Paoli, IN", address: "407 SW 1st St.", phone: "812-723-4600", state: "Indiana" },
             { lat: 40.4342, lng: -84.9788, title: "Portland, IN", address: "1502 N. Meridian St.", phone: "260-726-2420", state: "Indiana" },
             { lat: 41.2381, lng: -85.8530, title: "Warsaw, IN", address: "502 N. Detroit St.", phone: "574-269-2008", state: "Indiana" },
-            
-            // Iowa
             { lat: 40.7533, lng: -92.4160, title: "Bloomfield, IA", address: "103 Smith St.", phone: "641-664-2113", state: "Iowa" },
             { lat: 43.4008, lng: -94.8636, title: "Estherville, IA", address: "2009 Murray Road", phone: "712-362-7261", state: "Iowa" },
             { lat: 40.3975, lng: -91.3849, title: "Keokuk, IA", address: "3338 Main St.", phone: "319-524-2555", state: "Iowa" },
@@ -115,133 +107,71 @@
             { lat: 41.0347, lng: -93.7663, title: "Osceola, IA", address: "1002 Jeffreys Dr.", phone: "641-342-6009", state: "Iowa" },
             { lat: 41.8447, lng: -94.1019, title: "Perry, IA", address: "2812 Willis Ave.", phone: "515-465-5666", state: "Iowa" },
             { lat: 43.0636, lng: -96.1675, title: "Sioux Center, IA", address: "1989 S Main Ave.", phone: "712-722-3000", state: "Iowa" },
-            
-            // Kentucky
             { lat: 37.4020, lng: -86.8764, title: "Beaver Dam, KY", address: "1475 N. Main St.", phone: "270-274-7959", state: "Kentucky" },
             { lat: 38.4220, lng: -83.7335, title: "Flemingsburg, KY", address: "524 Mt Sterling Ave.", phone: "606-849-9521", state: "Kentucky" },
             { lat: 37.7781, lng: -86.4608, title: "Hardinsburg, KY", address: "500 Old Hwy 60 E", phone: "270-756-2206", state: "Kentucky" },
             { lat: 37.8403, lng: -85.9494, title: "Radcliff, KY", address: "1215 N. Dixie Blvd.", phone: "502-684-0150", state: "Kentucky" },
-            
-            // Louisiana
             { lat: 30.9521, lng: -92.1829, title: "Bunkie, LA", address: "607 NW Main St.", phone: "318-346-2615", state: "Louisiana" },
-            
-            // Michigan
             { lat: 45.3192, lng: -85.2586, title: "Charlevoix, MI", address: "1303 Bridge St.", phone: "231-547-5321", state: "Michigan" },
             { lat: 43.4636, lng: -85.9428, title: "Fremont, MI", address: "330 W. Main St.", phone: "231-924-0376", state: "Michigan" },
             { lat: 45.8202, lng: -88.0651, title: "Iron Mountain, MI", address: "1600 S. Stephenson Ave.", phone: "N/A", state: "Michigan" },
             { lat: 44.7631, lng: -85.6206, title: "Traverse City, MI", address: "3050 Hwy. 31", phone: "231-947-2022", state: "Michigan" },
             { lat: 43.4217, lng: -82.8293, title: "Sandusky, MI", address: "412 Sanilac Rd.", phone: "810-648-4555", state: "Michigan" },
-            
-            // Minnesota
             { lat: 47.4734, lng: -94.8803, title: "Bemidji, MN", address: "509 Paul Bunyan Dr. NW", phone: "218-751-1601", state: "Minnesota" }
         ];
 
         function initMap() {
-            // Initialize map centered on the United States
             map = new google.maps.Map(document.getElementById("map"), {
                 zoom: 5,
-                center: { lat: 39.8283, lng: -98.5795 }, // Geographic center of US
+                center: { lat: 39.8283, lng: -98.5795 },
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 mapId: "DEMO_MAP_ID"
             });
 
             infoWindow = new google.maps.InfoWindow();
 
-            // Add markers for each location
-            locations.forEach((location, index) => {
-                // Use AdvancedMarkerElement if available, fallback to regular Marker
-                if (google.maps.marker && google.maps.marker.AdvancedMarkerElement) {
-                    const pinElement = new google.maps.marker.PinElement({
-                        background: "#c8102e",
-                        borderColor: "#8B0000",
-                        glyphColor: "white",
-                        glyph: "PH"
-                    });
+            locations.forEach(location => {
+                const marker = new google.maps.Marker({
+                    position: { lat: location.lat, lng: location.lng },
+                    map: map,
+                    title: location.title
+                });
 
-                    const marker = new google.maps.marker.AdvancedMarkerElement({
-                        position: { lat: location.lat, lng: location.lng },
-                        map: map,
-                        title: location.title,
-                        content: pinElement.element
-                    });
-
-                    marker.addListener("click", () => {
-                        const content = `
-                            <div class="marker-info">
-                                <h3>Pizza Hut Classic</h3>
-                                <p><strong>${location.title}</strong></p>
-                                <p>📍 ${location.address}</p>
-                                <p class="phone">📞 ${location.phone}</p>
-                            </div>
-                        `;
-                        
-                        infoWindow.setContent(content);
-                        infoWindow.open(map, marker);
-                    });
-                } else {
-                    // Fallback to regular Marker
-                    const marker = new google.maps.Marker({
-                        position: { lat: location.lat, lng: location.lng },
-                        map: map,
-                        title: location.title,
-                        icon: {
-                            url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 32 42">
-                                    <path fill="#c8102e" d="M16 0C7.2 0 0 7.2 0 16c0 12 16 26 16 26s16-14 16-26C32 7.2 24.8 0 16 0z"/>
-                                    <circle fill="white" cx="16" cy="16" r="8"/>
-                                    <text x="16" y="20" text-anchor="middle" fill="#c8102e" font-family="Arial" font-size="12" font-weight="bold">PH</text>
-                                </svg>
-                            `),
-                            scaledSize: new google.maps.Size(32, 42),
-                            anchor: new google.maps.Point(16, 42)
-                        }
-                    });
-
-                    marker.addListener("click", () => {
-                        const content = `
-                            <div class="marker-info">
-                                <h3>Pizza Hut Classic</h3>
-                                <p><strong>${location.title}</strong></p>
-                                <p>📍 ${location.address}</p>
-                                <p class="phone">📞 ${location.phone}</p>
-                            </div>
-                        `;
-                        
-                        infoWindow.setContent(content);
-                        infoWindow.open(map, marker);
-                    });
-                }
+                marker.addListener("click", () => {
+                    const content = `
+                        <div class="marker-info">
+                            <h3>Pizza Hut Classic</h3>
+                            <p><strong>${location.title}</strong></p>
+                            <p>📍 ${location.address}</p>
+                            <p class="phone">📞 ${location.phone}</p>
+                        </div>
+                    `;
+                    infoWindow.setContent(content);
+                    infoWindow.open(map, marker);
+                });
             });
 
-            // Adjust map bounds to fit all markers
             const bounds = new google.maps.LatLngBounds();
             locations.forEach(location => {
                 bounds.extend(new google.maps.LatLng(location.lat, location.lng));
             });
             map.fitBounds(bounds);
-            
-            // Set a maximum zoom level to prevent over-zooming
-            google.maps.event.addListenerOnce(map, 'bounds_changed', function() {
+
+            google.maps.event.addListenerOnce(map, 'bounds_changed', function () {
                 if (map.getZoom() > 6) {
                     map.setZoom(6);
                 }
             });
         }
 
-        // Initialize the map using the new API loading method
         async function loadMap() {
             try {
-                // Load the Maps library
                 const { Map } = await google.maps.importLibrary("maps");
-                
-                // Try to load the Advanced Markers library
                 try {
                     await google.maps.importLibrary("marker");
                 } catch (e) {
                     console.log("Advanced markers not available, using regular markers");
                 }
-                
-                // Initialize the map
                 initMap();
             } catch (error) {
                 console.error('Error loading Google Maps:', error);
@@ -249,12 +179,10 @@
             }
         }
 
-        // Start loading when the page loads
         window.addEventListener('load', loadMap);
 
-        // Handle map loading errors
-        window.gm_authFailure = function() {
-            document.getElementById('map').innerHTML = 
+        window.gm_authFailure = function () {
+            document.getElementById('map').innerHTML =
                 '<div style="padding: 50px; text-align: center; color: #666;">' +
                 '<h3>Map Loading Error</h3>' +
                 '<p>Unable to load Google Maps. This may be due to API key restrictions.</p>' +
@@ -263,10 +191,24 @@
                 '</div>';
         };
     </script>
-    
-    <!-- Load Google Maps API -->
+
     <script>
-        (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.googleapis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+        (g => {
+            var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window;
+            b = b[c] || (b[c] = {});
+            var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => {
+                await (a = m.createElement("script"));
+                e.set("libraries", [...r] + "");
+                for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
+                e.set("callback", c + ".maps." + q);
+                a.src = `https://maps.googleapis.com/maps/api/js?` + e;
+                d[q] = f;
+                a.onerror = () => h = n(Error(p + " could not load."));
+                a.nonce = m.querySelector("script[nonce]")?.nonce || "";
+                m.head.append(a);
+            }));
+            d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n))
+        })({
             key: "AIzaSyDXK3fDzqCU2L4NoYMjo5HmQh33qnVB7Yk",
             v: "weekly",
         });
